@@ -1,0 +1,153 @@
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+  <ul class="sidebar-nav" id="sidebar-nav">
+
+    <li class="nav-item ">
+      <a class="nav-link collapsed" ui-sref="IndexCtrl">
+        <i class="bi bi-grid"></i>
+        <span>Home</span>
+      </a>
+    </li><!-- End Dashboard Nav -->
+    <li class="nav-item ">
+      <a class="nav-link collapsed" ui-sref="pricingCtrl">
+        <i class="bi bi-grid"></i>
+        <span>Pricing</span>
+      </a>
+    </li><!-- End Dashboard Nav -->
+    <li class="nav-item" ng-show="role('administrator')">
+      <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#"
+        aria-expanded="false">
+        <i class="bi bi-gem"></i><span>Admin</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a  ui-sref="adminNodesCtrl">
+            <i class="bi bi-circle"></i><span>Nodes</span>
+          </a>
+        </li>
+        <li>
+          <a  ui-sref="adminContainersCtrl">
+            <i class="bi bi-circle"></i><span>Containers</span>
+          </a>
+        </li>
+        <li>
+          <a  ui-sref="adminMYSQLCtrl">
+            <i class="bi bi-circle"></i><span>MYSQL</span>
+          </a>
+        </li>
+        <li>
+          <a ui-sref="adminNameserversCtrl">
+            <i class="bi bi-circle"></i><span>Nameservers</span>
+          </a>
+        </li>
+        <li>
+          <a ui-sref="adminBalancersCtrl">
+            <i class="bi bi-circle"></i><span>Balancers</span>
+          </a>
+        </li>
+        <li>
+          <a ui-sref="adminNOCCtrl">
+            <i class="bi bi-circle"></i><span>NOC</span>
+          </a>
+        </li>
+        <li>
+          <a ui-sref="adminFirewallCtrl">
+            <i class="bi bi-circle"></i><span>Firewall</span>
+          </a>
+        </li>
+        <li>
+          <a ui-sref="adminClustersCtrl">
+            <i class="bi bi-circle"></i><span>Clusters</span>
+          </a>
+        </li>
+        <li>
+          <a ui-sref="adminServicesCtrl">
+            <i class="bi bi-circle"></i><span>Services</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <li class="nav-heading">Services</li>
+
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" ui-sref="domainsCtrl">
+        <i class="bi bi-question-circle"></i>
+        <span>Domains</span>
+      </a>
+    </li><!-- End F.A.Q Page Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" ui-sref="spacesCtrl">
+        <i class="bi bi-journal-text"></i>
+        <span>Spaces</span>
+      </a>
+    </li><!-- End F.A.Q Page Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" ui-sref="emailsCtrl">
+        <i class="bi bi-question-circle"></i>
+        <span>Email</span>
+      </a>
+    </li><!-- End F.A.Q Page Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#hosting" data-bs-toggle="collapse" href="#"
+        aria-expanded="false">
+        <i class="bi bi-journal-text"></i><span>Hosting</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="hosting" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a  ui-sref="reposCtrl">
+            <i class="bi bi-journal-text"></i><span>GIT</span>
+          </a>
+        </li>
+        <li>
+          <a  ui-sref="cdnsCtrl">
+            <i class="bi bi-circle"></i><span>CDN</span>
+          </a>
+        </li>
+        <li>
+          <a  ui-sref="vpnsCtrl">
+            <i class="bi bi-envelope"></i><span>VPNs</span>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <li class="nav-heading">Pages</li>
+
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" ui-sref="faqCtrl">
+        <i class="bi bi-question-circle"></i>
+        <span>F.A.Q</span>
+      </a>
+    </li><!-- End F.A.Q Page Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" ui-sref="contactCtrl">
+        <i class="bi bi-envelope"></i>
+        <span>Contact</span>
+      </a>
+    </li><!-- End Contact Page Nav -->
+
+    <li class="nav-item" ng-hide="isAuth()">
+      <a class="nav-link collapsed" href="pages-register.html">
+        <i class="bi bi-card-list"></i>
+        <span>Register</span>
+      </a>
+    </li><!-- End Register Page Nav -->
+
+    <li class="nav-item" ng-hide="isAuth()">
+      <a class="nav-link collapsed" ui-sref="LoginCtrl">
+        <i class="bi bi-box-arrow-in-right"></i>
+        <span>Login</span>
+      </a>
+    </li><!-- End Login Page Nav -->
+   
+
+
+
+  </ul>
+
+</aside><!-- End Sidebar-->

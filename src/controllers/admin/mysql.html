@@ -1,0 +1,278 @@
+<div class="pagetitle">
+  <h1>Balancers</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item">Admin</li>
+      <li class="breadcrumb-item active">Balancers</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+
+
+
+
+<section class="section profile">
+  <div class="row">
+    <div class="col-xl-4">
+
+      <div class="card">
+        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+          <h5 class="card-title">Create New Server</h5>
+
+          <!-- No Labels Form -->
+          <form class="row g-3">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Name" aria-label="Name"
+                aria-describedby="basic-addon2" ng-model="serverModel.name">
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="hostname" aria-label="hostname"
+                aria-describedby="basic-addon2" ng-model="serverModel.hostname">
+            </div>
+            <div class="input-group mb-3">
+              <input type="number" class="form-control" placeholder="port" aria-label="port"
+                aria-describedby="basic-addon2" ng-model="serverModel.port">
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="username" aria-label="username"
+                aria-describedby="basic-addon2" ng-model="serverModel.username">
+            </div>
+            <div class="input-group mb-3">
+              <input type="password" class="form-control" placeholder="password" aria-label="password"
+                aria-describedby="basic-addon2" ng-model="serverModel.password">
+            </div>
+            <div class="input-group mb-3">
+              <select class="form-select" aria-label="Default select example" placeholder="Node"
+                ng-model="serverModel.node" required>
+                <option value="{{node.id}}" ng-repeat='node in nodes.rows track by node.id'>
+                  {{node.hostname}}</option>
+              </select>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" ng-click="createServer()">Submit</button>
+              <button type="reset" class="btn btn-secondary" ng-click="reset()">Reset</button>
+            </div>
+          </form><!-- End No Labels Form -->
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+          <h5 class="card-title">Create Database</h5>
+
+          <!-- No Labels Form -->
+          <form class="row g-3">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Name" aria-label="Name"
+                aria-describedby="basic-addon2" ng-model="databaseModel.name">
+            </div>
+            <div class="input-group mb-3">
+              <select class="form-select" aria-label="Default select example" placeholder="Node"
+                ng-model="databaseModel.server" required>
+                <option value="{{server.id}}" ng-repeat='server in servers.rows track by server.id'>
+                  {{server.name}}</option>
+              </select>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" ng-click="createDatabase()">Submit</button>
+              <button type="reset" class="btn btn-secondary" ng-click="reset()">Reset</button>
+            </div>
+          </form><!-- End No Labels Form -->
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+          <h5 class="card-title">Create User</h5>
+
+          <!-- No Labels Form -->
+          <form class="row g-3">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                aria-describedby="basic-addon2" ng-model="userModel.username">
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Password" aria-label="Password"
+                aria-describedby="basic-addon2" ng-model="userModel.password">
+            </div>
+            <div class="input-group mb-3">
+              <select class="form-select" aria-label="Database" placeholder="Database"
+                ng-model="userModel.database" required>
+                <option value="{{database.id}}" ng-repeat='database in databases.rows track by database.id'>
+                  {{database.name}}</option>
+              </select>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" ng-click="createUser()">Submit</button>
+              <button type="reset" class="btn btn-secondary" ng-click="reset()">Reset</button>
+            </div>
+          </form><!-- End No Labels Form -->
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-xl-8">
+
+      <div class="card">
+        <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+          <ul class="nav nav-tabs nav-tabs-bordered">
+
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview">Overview</button>
+            </li>
+          </ul>
+          <div class="tab-content pt-2">
+
+            <div class="tab-pane fade show active profile-overview" id="overview">
+              <div class="col-lg-12" ng-show="isAuth()">
+
+                <h5 class="card-title">MYSQL Servers</h5>
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">User</th>
+                      <th scope="col">Host</th>
+                      <th scope="col">Created</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat='server in servers.rows track by server.id'>
+                      <th scope="row">{{$index}}</th>
+                      <td>{{server.name}}</td>
+                      <td>{{server.username}}</td>
+                      <td>{{server.hostname}}:{{server.port}}</td>
+                      <td>
+                        <minutes-ago start-time="server.createdAt"></minutes-ago>
+                      </td>
+                      <td>
+                        <button class="bi bi-question-circle btn" ui-sref="adminBalancerCtrl({id:server.balancer})"></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <h5 class="card-title">MYSQL Users</h5>
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Database</th>
+                      <th scope="col">User</th>
+                      <th scope="col">Created</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat='user in users.rows track by user.id'>
+                      <th scope="row">{{$index}}</th>
+                      <td>{{user.database}}</td>
+                      <td>{{user.username}}</td>
+                      <td>
+                        <minutes-ago start-time="user.createdAt"></minutes-ago>
+                      </td>
+                      <td>
+                        <button class="bi bi-question-circle btn" ui-sref="adminBalancerCtrl({id:user.balancer})"></button>
+                        <button class="bi bi-question-circle btn" ng-click="removeUser(user)"></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+
+                <h5 class="card-title">MYSQL Databaes</h5>
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Server</th>
+                      <th scope="col">Created</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat='database in databases.rows track by database.id'>
+                      <th scope="row">{{$index}}</th>
+                      <td>{{database.name}}</td>
+                      <td>{{database.server}}</td>
+                      <td>
+                        <minutes-ago start-time="database.createdAt"></minutes-ago>
+                      </td>
+                      <td>
+                        <button class="bi bi-question-circle btn" ui-sref="adminBalancerCtrl({id:database.balancer})"></button>
+                        <button class="bi bi-question-circle btn" ng-click="removeDatabase(database)"></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+
+            <div class=" tab-pane fade profile-edit pt-3" id="edit">
+
+              <!-- Profile Edit Form -->
+              <form>
+                <div class="row mb-3">
+                  <label for="fullName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="fullName" type="text" class="form-control" id="fullName" ng-model="profile.firstName">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="fullName" type="text" class="form-control" id="fullName" ng-model="profile.lastName">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
+                  <div class="col-md-8 col-lg-9">
+                    <textarea name="about" class="form-control" id="about" style="height: 100px"
+                      ng-model="profile.about"></textarea>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary" ng-click="updateProfile()">Save
+                    Changes</button>
+                </div>
+              </form><!-- End Profile Edit Form -->
+
+            </div>
+
+            <div class="tab-pane fade pt-3" id="settings">
+              <!-- Settings Form -->
+              <form>
+                <div class="row mb-3">
+                  <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email
+                    Notifications</label>
+                  <div class="col-md-8 col-lg-9">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="changesMade" checked>
+                      <label class="form-check-label" for="changesMade">
+                        Changes made to your account
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+              </form><!-- End settings Form -->
+            </div>
+
+            <div class="tab-pane fade pt-3" id="change-password">
+
+
+            </div>
+
+          </div><!-- End Bordered Tabs -->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

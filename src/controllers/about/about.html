@@ -1,0 +1,70 @@
+<div class="col-lg-6">
+  <h4>Subheading</h4>
+  <p>Donec id elit non mi porta gravida at eget metus. Maecenas faucibus mollis interdum.</p>
+
+  <h4>Subheading</h4>
+  <p>Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet
+    fermentum.</p>
+
+  <h4>Subheading</h4>
+  <p>Maecenas sed diam eget risus varius blandit sit amet non magna.</p>
+</div>
+
+
+<div class="table-title">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="show-entries">
+        <span>Show</span>
+        <select ng-model="directive.model.pageSize" ng-change="directive.list()">
+          <option value="10" selected>10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        <span>entries</span>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <h2 class="text-center">Customer <b>Details</b></h2>
+    </div>
+    <div class="col-sm-4">
+      <div class="search-box">
+        <div class="input-group mb-3"> <span class="input-group-text" id="basic-addon1">?</span>
+          <input type="text" class="form-control" placeholder="Search…" aria-label="Search…"
+            aria-describedby="basic-addon1">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th ng-repeat='field in directive.config.fields track by field.key'>{{field.title}} <i class="fa fa-sort"></i>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat='entity in directive.model.rows track by entity.id'>
+      <td>{{$index}}</td>
+      <td ng-repeat='field in directive.config.fields track by field.key'>{{directive.format(entity,field)}}</td>
+      <td>
+        <button class="bi bi-view-list view" ui-sref="adminBalancerCtrl({id:balancer.id})"></button>
+        <button class="bi bi-pencil-square edit" ui-sref="adminBalancerCtrl({id:balancer.id})"></button>
+        <button class="bi bi-x-circle delete" ui-sref="adminBalancerCtrl({id:balancer.id})"></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="clearfix">
+  <div class="hint-text">Showing <b>{{directive.model.rows.length||0}}</b> out of <b>{{directive.model.total}}</b>
+    entries</div>
+  <ul class="pagination">
+    <li class="page-item disabled"><a href="#">Previous</a></li>
+    <li class="page-item active"><a href="#" class="page-link">3</a></li>
+    <li class="page-item"><a href="#" class="page-link">Next</a></li>
+  </ul>
+</div>

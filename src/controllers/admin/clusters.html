@@ -1,0 +1,175 @@
+<div class="pagetitle">
+  <h1>Balancers</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item">Admin</li>
+      <li class="breadcrumb-item active">Balancers</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+
+
+
+
+<section class="section profile">
+  <div class="row">
+    <div class="col-xl-4">
+
+      <div class="card">
+        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+          <h5 class="card-title">Create Compute node</h5>
+
+          <!-- No Labels Form -->
+          <form class="row g-3">
+            <div class="input-group mb-3">
+              <select class="form-select" aria-label="Default select example" placeholder="cluster"
+                ng-model="clusterComputeModel.cluster" required>
+                <option value="{{cluster.id}}" ng-repeat='cluster in clusters.rows track by cluster.id'>
+                  {{cluster.name}}</option>
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <select class="form-select" aria-label="Default select example" placeholder="cluster"
+                ng-model="clusterComputeModel.node" required>
+                <option value="{{node.id}}" ng-repeat='node in nodes.rows track by node.id'>
+                  {{node.hostname}}</option>
+              </select>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" ng-click="createClusterCompute()">Submit</button>
+              <button type="reset" class="btn btn-secondary" ng-click="reset()">Reset</button>
+            </div>
+          </form><!-- End No Labels Form -->
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+          <h5 class="card-title">Create Storage node</h5>
+
+          <!-- No Labels Form -->
+          <form class="row g-3">
+            <div class="input-group mb-3">
+              <select class="form-select" aria-label="Default select example" placeholder="cluster"
+                ng-model="clusterStorageModel.cluster" required>
+                <option value="{{cluster.id}}" ng-repeat='cluster in clusters.rows track by cluster.id'>
+                  {{cluster.name}}</option>
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <select class="form-select" aria-label="Default select example" placeholder="cluster"
+                ng-model="clusterStorageModel.mount" required>
+                <option value="{{mount.id}}" ng-repeat='mount in mounts track by mount.id'>
+                  {{mount.node.hostname}}:{{mount.device.type}}:{{mount.device.path}}</option>
+              </select>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" ng-click="createClusterStorage()">Submit</button>
+              <button type="reset" class="btn btn-secondary" ng-click="reset()">Reset</button>
+            </div>
+          </form><!-- End No Labels Form -->
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="col-xl-8">
+
+      <div class="card" ng-repeat='cluster in clusters.rows track by cluster.id'>
+        <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+                <h5 class="card-title">{{cluster.name}}</h5>
+          <ul class="nav nav-tabs nav-tabs-bordered">
+
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#compute-{{cluster.id}}">Compuite</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#storage-{{cluster.id}}">storage</button>
+            </li>
+          </ul>
+          <div class="tab-content pt-2">
+
+            <div class="tab-pane fade show active" id="compute-{{cluster.id}}">
+              <div class="col-lg-12" ng-show="isAuth()">
+
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Hostname</th>
+                      <th scope="col">Cores</th>
+                      <th scope="col">Memory</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr ng-repeat='compute in cluster.compute track by compute.id'>
+                      <th scope="row">{{$index}}</th>
+                      <td>{{compute.node.hostname}}</td>
+                      <td>{{compute.cores}}</td>
+                      <td>{{compute.memory}}</td>
+                      <td>
+                        <minutes-ago start-time="compute.createdAt"></minutes-ago>
+                      </td>
+                      <td>
+                        <button class="bi bi-question-circle btn"
+                          ui-sref="adminBalancerCtrl({id:balancer.id})"></button>
+                        <button class="bi bi-question-circle btn"
+                          ui-sref="adminNodeCtrl({id:nameserver.node})"></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+
+            </div>
+            <div class="tab-pane fade show" id="storage-{{cluster.id}}">
+              <div class="col-lg-12" ng-show="isAuth()">
+
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Hostname</th>
+                      <th scope="col">Cores</th>
+                      <th scope="col">Memory</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr ng-repeat='storage in cluster.storage track by storage.id'>
+                      <th scope="row">{{$index}}</th>
+                      <td>{{storage.mount.mountpoint}}</td>
+                      <td>{{storage.mount.device.type}}</td>
+                      <td>{{storage.mount.device.mountpoint}}</td>
+                      <td>
+                        <minutes-ago start-time="storage.createdAt"></minutes-ago>
+                      </td>
+                      <td>
+                        <button class="bi bi-question-circle btn"
+                          ui-sref="adminBalancerCtrl({id:balancer.id})"></button>
+                        <button class="bi bi-question-circle btn"
+                          ui-sref="adminNodeCtrl({id:nameserver.node})"></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+
+            </div>
+
+
+          </div><!-- End Bordered Tabs -->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

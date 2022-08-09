@@ -1,0 +1,19 @@
+<div class="pagetitle">
+  <h1>Frequently Asked Questions</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+      <li class="breadcrumb-item">Pages</li>
+      <li class="breadcrumb-item active">Frequently Asked Questions</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+<section class="section faq">
+  <div class="row">
+    <div class="col-lg-6" ng-repeat='group in groups track by $index'>
+      <faq-group-two-directive group="group">
+        </faq-group-two-directive>
+    </div>
+  </div>
+</section>

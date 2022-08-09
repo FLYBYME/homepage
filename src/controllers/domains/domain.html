@@ -1,0 +1,229 @@
+<div class="pagetitle">
+  <h1>{{domain.name}}</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+      <li class="breadcrumb-item">Services</li>
+      <li class="breadcrumb-item">Domains</li>
+      <li class="breadcrumb-item active">{{domain.domain}}</li>
+
+
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+<section class="section profile">
+  <div class="row">
+    <div class="col-xl-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Create new record</h5>
+
+          <!-- No Labels Form -->
+          <form class="row g-3">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="FQDN" aria-label="FQDN"
+                aria-describedby="basic-addon2" ng-model="domainModel.fqdn">
+              <span class="input-group-text" id="basic-addon2">.{{domain.domain}}</span>
+            </div>
+            <div class="col-md-4">
+              <select id="Type" class="form-control" ng-model="domainModel.type">
+                <option value="A" selected>A</option>
+                <option value="AAAA">AAAA</option>
+                <option value="CNAME">CNAME</option>
+                <option value="TXT">TXT</option>
+                <option value="MX">MX</option>
+                <option value="NS">NS</option>
+              </select>
+            </div>
+            <div class="col-md-8">
+              <input type="text" class="form-control" placeholder="Data 1.1.1.1" ng-model="domainModel.data">
+            </div>
+            <div class="col-md-4">
+              <input type="number" class="form-control" placeholder="TTL" ng-model="domainModel.ttl">
+            </div>
+            <div class="col-md-8">
+              <input type="text" class="form-control" placeholder="Network 10.0.0.0/16" ng-model="domainModel.network">
+            </div>
+            <div class="col-md-4">
+              <input type="number" class="form-control" placeholder="Flag" ng-model="domainModel.flag">
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control" placeholder="tag" ng-model="domainModel.tag">
+            </div>
+            <div class="col-md-4">
+              <input type="number" class="form-control" placeholder="priority" ng-model="domainModel.priority">
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" ng-click="createRecord()">Submit</button>
+              <button type="reset" class="btn btn-secondary" ng-click="reset()">Reset</button>
+            </div>
+          </form><!-- End No Labels Form -->
+
+        </div>
+      </div>
+
+      <div class="card info-card customers-card">
+        <div class="card-body">
+          <h5 class="card-title">Name</h5>
+          <p class="small fst-italic">{{domain.name}}</p>
+
+          <h5 class="card-title">Domain Details</h5>
+          <div class="row">
+            <div class="col-md-4 label ">Domain</div>
+            <div class="col-md-8">{{domain.domain}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 label ">SLD</div>
+            <div class="col-md-8">{{domain.sld}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 label ">TLD</div>
+            <div class="col-md-8">{{domain.tld}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 label ">Created</div>
+            <div class="col-md-8">
+              <minutes-ago start-time="domain.createdAt"></minutes-ago>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 label ">Updated</div>
+            <div class="col-md-8">
+              <minutes-ago start-time="domain.updatedAt||domain.createdAt"></minutes-ago>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-xl-8">
+
+      <div class="card">
+        <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+          <ul class="nav nav-tabs nav-tabs-bordered">
+
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview">Overview</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit">Edit</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#settings">Settings</button>
+            </li>
+          </ul>
+          <div class="tab-content pt-2">
+
+            <div class="tab-pane fade show active profile-overview" id="overview">
+              <h5 class="card-title">Domain - {{domain.domain}}</h5>
+              <p>Innovative technology for fast, easy domain name system management. DNSimple focuses on DNS management,
+                and
+                we offer a lot of tools most registrars don't have.</p>
+                
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Domain</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col"> </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat='record in records.rows track by record.id'>
+                    <th scope="row">{{$index}}</th>
+                    <td>{{record.type}}</td>
+                    <td>{{record.fqdn}}</td>
+                    <td>{{record.data}}</td>
+                    <td>
+                      <div class="btn-group" role="group">
+                        <button id="btnGroupDrop1" type="button" class="badge btn-primary dropdown-toggle"
+                          data-bs-toggle="dropdown" aria-expanded="false">
+                          Dropdown
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                          <li><a class="dropdown-item" ui-sref="websiteCtrl({space:space.id,id:website.id})">View</a>
+                          </li>
+                          <li><a class="dropdown-item" ng-click="removeRecord(record)">Remove</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                  </li>
+                  <li class="page-item"><a class="page-link" href="#">1</a></li>
+                  <li class="page-item"><a class="page-link" href="#">2</a></li>
+                  <li class="page-item"><a class="page-link" href="#">3</a></li>
+                  <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                  </li>
+                </ul>
+              </nav>
+              <!-- End Table with stripped rows -->
+
+
+            </div>
+
+            <div class=" tab-pane fade profile-edit pt-3" id="edit">
+
+              <!-- Profile Edit Form -->
+              <form>
+                <div class="row mb-3">
+                  <label for="name" class="col-md-4 col-lg-3 col-form-label">Name</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="name" type="text" class="form-control" id="fullName" ng-model="domain.name">
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary" ng-click="updateDomain()">Save
+                    Changes</button>
+                </div>
+              </form><!-- End Profile Edit Form -->
+
+            </div>
+
+            <div class="tab-pane fade pt-3" id="settings">
+              <!-- Settings Form -->
+              <form>
+                <div class="row mb-3">
+                  <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email
+                    Notifications</label>
+                  <div class="col-md-8 col-lg-9">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="changesMade" checked>
+                      <label class="form-check-label" for="changesMade">
+                        Changes made to your account
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+              </form><!-- End settings Form -->
+            </div>
+
+            <div class="tab-pane fade pt-3" id="change-password">
+
+
+            </div>
+
+          </div><!-- End Bordered Tabs -->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

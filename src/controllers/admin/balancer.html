@@ -1,0 +1,281 @@
+<div class="pagetitle">
+    <h1>Node {{node.hostname}}</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item">Admin</li>
+            <li class="breadcrumb-item">Nodes</li>
+            <li class="breadcrumb-item active">{{node.hostname}}</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section profile">
+    <div class="row">
+        <div class="col-xl-4">
+
+            <div class="card">
+                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+                    <img src="{{user.avatar}}" alt="Profile" class="rounded-circle">
+                    <h2>{{user.fullName}}</h2>
+                    <h3>{{profile.job}}</h3>
+                    <div class="social-links mt-2">
+                        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Hits <span>| This Week</span></h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>{{hitsTotal}}</h6>
+                            <span class="text-danger small pt-1 fw-bold">12%</span> <span
+                                class="text-muted small pt-2 ps-1">decrease</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Hits <span>| This Week</span></h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>{{hits}}</h6>
+                            <span class="text-danger small pt-1 fw-bold">12%</span> <span
+                                class="text-muted small pt-2 ps-1">decrease</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row col-xl-8">
+
+            <div class="card">
+                <div class="card-body pt-3">
+                    <!-- Bordered Tabs -->
+                    <ul class="nav nav-tabs nav-tabs-bordered">
+
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="tab"
+                                data-bs-target="#profile-overview">Overview</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit">Edit
+                                Nameserver</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#add-interface">Add
+                                Interface</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content pt-2">
+
+                        <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                            <h5 class="card-title">Space Details</h5>
+                            <div class="row">
+                                <div class="col-md-4 label ">Location</div>
+                                <div class="col-md-8">{{nameserver.location}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 label ">FQDN</div>
+                                <div class="col-md-8">{{nameserver.fqdn}}</div>
+                            </div>
+
+                        </div>
+
+                        <div class=" tab-pane fade profile-edit pt-3" id="add-interface">
+                            <form>
+                                <div class="row mb-3">
+                                    <label for="Type" class="col-md-4 col-lg-3 col-form-label">Interface</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <select class="form-select" aria-label="Default select example"
+                                            ng-model="interfaceModel.interface" required>
+                                            <option value="{{network.id}}"
+                                                ng-repeat='network in networks.rows track by network.id'>
+                                                {{network.address}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary" ng-disabled="diskModel.loading"
+                                        ng-click="createInterface()">Create New</button>
+                                </div>
+                            </form><!-- End Profile Edit Form -->
+                        </div>
+
+                        <div class=" tab-pane fade profile-edit pt-3" id="edit">
+
+                            <!-- Profile Edit Form -->
+                            <form>
+                                <div class="row mb-3">
+                                    <label for="Location" class="col-md-4 col-lg-3 col-form-label">Location</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="Location" type="text" class="form-control" id="Location"
+                                            ng-model="nameserver.location">
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary" ng-click="updateNameserver()">Save
+                                        Changes</button>
+                                </div>
+                            </form><!-- End Profile Edit Form -->
+
+                        </div>
+
+                        <div class="tab-pane fade pt-3" id="profile-settings">
+
+                            <!-- Settings Form -->
+                            <form>
+
+                                <div class="row mb-3">
+                                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email
+                                        Notifications</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="changesMade" checked>
+                                            <label class="form-check-label" for="changesMade">
+                                                Changes made to your account
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="newProducts" checked>
+                                            <label class="form-check-label" for="newProducts">
+                                                Information on new products and services
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="proOffers">
+                                            <label class="form-check-label" for="proOffers">
+                                                Marketing and promo offers
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="securityNotify" checked
+                                                disabled>
+                                            <label class="form-check-label" for="securityNotify">
+                                                Security alerts
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form><!-- End settings Form -->
+
+                        </div>
+
+                        <div class="tab-pane fade pt-3" id="profile-change-password">
+                            <!-- Change Password Form -->
+                            <form>
+
+                                <div class="row mb-3">
+                                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current
+                                        Password</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="password" type="password" class="form-control"
+                                            id="currentPassword">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New
+                                        Password</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="newpassword" type="password" class="form-control" id="newPassword">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New
+                                        Password</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="renewpassword" type="password" class="form-control"
+                                            id="renewPassword">
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Change Password</button>
+                                </div>
+                            </form><!-- End Change Password Form -->
+
+                        </div>
+
+                    </div><!-- End Bordered Tabs -->
+
+                </div>
+            </div>
+            <div class=" col-lg-6">
+                <div class="card card-body pt-3">
+
+
+                    <h5 class="card-title">Address</h5>
+                    <p>A virtual private network extends a private network across a public network and
+                        enables users to send
+                        and
+                        receive data across shared or public networks as if their computing devices were
+                        directly connected to
+                        the
+                        private network</p>
+
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Public</th>
+                                <th scope="col"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat='addr in address.rows track by addr.id'>
+                                <th scope="row">{{$index}}</th>
+                                <td>{{addr.interface.address}}</td>
+                                <td>{{addr.interface.public}}</td>
+
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button id="btnGroupDrop1" type="button" class="badge btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                          Dropdown
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                          <li><a class="dropdown-item" ui-sref="websiteCtrl({space:space.id,id:website.id})">View</a></li>
+                                          <li><a class="dropdown-item" ng-click="removeInterface(addr)">Remove</a></li>
+                                        </ul>
+                                      </div>
+
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+
+
+                </div>
+            </div>
+            <div class=" col-lg-6">
+
+            </div>
+
+
+        </div>
+    </div>
+</section>

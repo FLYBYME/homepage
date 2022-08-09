@@ -1,0 +1,158 @@
+<div class="pagetitle">
+    <h1>Node {{node.hostname}}</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item">Admin</li>
+            <li class="breadcrumb-item">Nodes</li>
+            <li class="breadcrumb-item active">{{node.hostname}}</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section profile">
+    <div class="row">
+        <div class="col-xl-4">
+
+            <div class="card">
+                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+                    <img src="{{user.avatar}}" alt="Profile" class="rounded-circle">
+                    <h2>{{user.fullName}}</h2>
+                    <h3>{{profile.job}}</h3>
+                    <div class="social-links mt-2">
+                        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card" ng-show="isAuth()" ng-repeat='network in publicNetworks track by network.id'>
+                <div class="card-body">
+                    <h5 class="card-title">Gateways</h5>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 label ">Address</div>
+                        <div class="col-lg-9 col-md-8 ng-binding">{{network.address}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 label ">Device</div>
+                        <div class="col-lg-9 col-md-8 ng-binding">{{network.dev}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 label ">Node</div>
+                        <div class="col-lg-9 col-md-8 ng-binding">{{network.node}}</div>
+                    </div>
+                    <h5 class="card-title">Gateways</h5>
+                    <div class="row mb-5">
+                        <label class="col-sm-2 col-form-label"></label>
+                        <div class="col-sm-10">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault"
+                                    ng-model="network.masquerade">
+                                <label class="form-check-label" for="flexSwitchCheckDefault">Masquerading</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row col-xl-8">
+
+            <div class="card">
+                <div class="card-body pt-3">
+                    <!-- Bordered Tabs -->
+                    <ul class="nav nav-tabs nav-tabs-bordered">
+
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="tab"
+                                data-bs-target="#profile-overview">Overview</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content pt-2">
+
+                        <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                            <div class="col-lg-12" ng-show="isAuth()">
+
+                                <h5 class="card-title">Network map</h5>
+                                <p id="t-graph"></p>
+                                <h5 class="card-title">Network map</h5>
+                                <div class="row">
+                                    <div class="col-md-6 col-xl-3">
+                                        <div class="card-body row">
+                                            <div class="col-12 card-title align-self-center mb-0">
+                                                <h5>Emma A. Main</h5>
+                                                <p class="m-0">Graphics Designer</p>
+                                            </div>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            <li class="list-group-item"><i class="fa fa-envelope float-right"></i>Email
+                                                : <a href="#">PaulGoyette@gmail.com</a></li>
+                                            <li class="list-group-item"><i class="fa fa-phone float-right"></i>Phone :
+                                                000 123-456</li>
+                                        </ul>
+                                        <div class="card-body">
+                                            <div class="float-right btn-group btn-group-sm">
+                                                <a href="#" class="btn btn-primary tooltips" data-placement="top"
+                                                    data-toggle="tooltip" data-original-title="Edit"><i
+                                                        class="fa fa-pencil"></i> </a>
+                                                <a href="#" class="btn btn-secondary tooltips" data-placement="top"
+                                                    data-toggle="tooltip" data-original-title="Delete"><i
+                                                        class="fa fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h5 class="card-title">Rules</h5>
+                                <!-- Table with stripped rows -->
+                                <table class="table datatable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">IP</th>
+                                            <th scope="col">Source</th>
+                                            <th scope="col">Hits</th>
+                                            <th scope="col">Created</th>
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat='rule in rules.rows track by rule.id'>
+                                            <th scope="row">{{$index}}</th>
+                                            <td>{{rule.node.hostname}}</td>
+                                            <td>{{rule.inInterface}}/{{rule.outInterface}}</td>
+                                            <td>{{rule.chain}}</td>
+                                            <td>{{rule.jump}}</td>
+                                            <td>{{rule.sourceIP}}</td>
+                                            <td>{{rule.sourcePort}}</td>
+                                            <td>{{rule.destinationIp}}</td>
+                                            <td>{{rule.destinationPort}}</td>
+                                            <td>{{rule.protocol}}</td>
+                                            <td>{{rule.match}}</td>
+
+                                            <td>
+                                                <minutes-ago start-time="rule.createdAt"></minutes-ago>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- End Table with stripped rows -->
+
+
+                            </div>
+
+
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

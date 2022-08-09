@@ -1,0 +1,10 @@
+<div class="card basic">
+  <div class="card-body">
+      <h5 class="card-title">{{scopeGroup.group}}</h5>
+
+      <div ng-repeat='entity in scopeGroup track by entity.id'>
+          <h6>{{entity.index}}. {{entity.title}}</h6>
+          <p>{{entity.text}}</p>
+      </div>
+  </div>
+</div>

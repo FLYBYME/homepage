@@ -1,0 +1,157 @@
+<div class="pagetitle">
+  <h1>Balancers</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item">Admin</li>
+      <li class="breadcrumb-item active">Balancers</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+
+
+
+
+<section class="section profile">
+  <div class="row">
+    <div class="col-xl-4">
+
+      <div class="card">
+        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+          <h5 class="card-title">Create Compute node</h5>
+
+          <!-- No Labels Form -->
+          <form class="row g-3">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="service" aria-label="service"
+                aria-describedby="basic-addon2" id="service" ng-model="serviceModel.service">
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="version" aria-label="version" value=1
+                aria-describedby="basic-addon2" id="version" ng-model="serviceModel.version">
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="path" aria-label="path"
+                aria-placeholder="./services/apps.service" aria-describedby="basic-addon2" id="path"
+                ng-model="serviceModel.path">
+            </div>
+            <div class="input-group mb-3">
+              <select class="form-select" aria-label="Default select example" placeholder="Node"
+                ng-model="serviceModel.nodeID" required>
+                <option value="{{node.nodeID}}" ng-repeat='node in nodes.rows track by node.id'>
+                  {{node.nodeID}}</option>
+              </select>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" ng-click="createService()">Submit</button>
+              <button type="reset" class="btn btn-secondary" ng-click="reset()">Reset</button>
+            </div>
+          </form><!-- End No Labels Form -->
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-xl-8">
+
+      <div class="card">
+        <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+          <h5 class="card-title">{{cluster.name}}</h5>
+          <ul class="nav nav-tabs nav-tabs-bordered">
+
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#services">Compuite</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#services">storage</button>
+            </li>
+          </ul>
+          <div class="tab-content pt-2">
+
+            <div class="tab-pane fade show active" id="services">
+              <div class="col-lg-12" ng-show="isAuth()">
+
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Service</th>
+                      <th scope="col">Version</th>
+                      <th scope="col">Node</th>
+                      <th scope="col">Running</th>
+                      <th scope="col">Path</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr ng-repeat='service in services.rows track by service.id'>
+                      <th scope="row">{{$index}}</th>
+                      <td>{{service.service}}</td>
+                      <td>{{service.version}}</td>
+                      <td>{{service.running}}</td>
+                      <td>{{service.nodeID}}</td>
+                      <td>{{service.path}}</td>
+                      <td>
+                        <minutes-ago start-time="service.createdAt"></minutes-ago>
+                      </td>
+                      <td>
+                        <button class="bi bi-file-x btn" ng-click="removeService(service)"></button>
+                        <button class="bi bi-clipboard-plus btn" ng-click="copyService(service)"></button>
+                        <button class="bi bi-play-circle btn" ng-click="startService(service)"></button>
+                        <button class="bi bi-stop-circle btn" ng-click="stopService(service)"></button>
+                        <button class="bi bi-arrow-clockwise btn" ng-click="reloadService(service)"></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+
+            </div>
+            <div class="tab-pane fade show" id="storage-{{cluster.id}}">
+              <div class="col-lg-12" ng-show="isAuth()">
+
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Hostname</th>
+                      <th scope="col">Cores</th>
+                      <th scope="col">Memory</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr ng-repeat='storage in cluster.storage track by storage.id'>
+                      <th scope="row">{{$index}}</th>
+                      <td>{{storage.mount.mountpoint}}</td>
+                      <td>{{storage.mount.device.type}}</td>
+                      <td>{{storage.mount.device.mountpoint}}</td>
+                      <td>
+                        <minutes-ago start-time="storage.createdAt"></minutes-ago>
+                      </td>
+                      <td>
+                        <button class="bi bi-question-circle btn"
+                          ui-sref="adminBalancerCtrl({id:balancer.id})"></button>
+                        <button class="bi bi-question-circle btn"
+                          ui-sref="adminNodeCtrl({id:nameserver.node})"></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+
+            </div>
+
+
+          </div><!-- End Bordered Tabs -->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

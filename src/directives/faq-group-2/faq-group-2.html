@@ -1,0 +1,25 @@
+<div class="card" >
+  <div class="card-body">
+      <h5 class="card-title">{{group.group}}</h5>
+
+      <div class="accordion accordion-flush" id="faq-group-2">
+
+          <div class="accordion-item" ng-repeat='entity in group track by entity.id'>
+              <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" data-bs-target="#G{{entity.id}}" type="button"
+                      data-bs-toggle="collapse">
+                      {{entity.title}}
+                  </button>
+              </h2>
+              <div id="G{{entity.id}}" class="accordion-collapse collapse" data-bs-parent="#faq-group-2">
+                  <div class="accordion-body">
+                    {{entity.text}}
+                  </div>
+              </div>
+          </div>
+
+
+      </div>
+
+  </div>
+</div><!-- End F.A.Q Group 2 -->

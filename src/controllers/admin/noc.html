@@ -1,0 +1,277 @@
+<div class="pagetitle">
+  <h1>Balancers</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item">Admin</li>
+      <li class="breadcrumb-item active">Balancers</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+<section class="section profile">
+  <div class="row">
+    <div class="col-xl-4">
+
+      <div class="card">
+        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+          <h5 class="card-title">Create New Balancer</h5>
+
+          <!-- No Labels Form -->
+          <form class="row g-3">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Location" aria-label="Location"
+                aria-describedby="basic-addon2" ng-model="balancerModel.location">
+            </div>
+            <div class="input-group mb-3">
+              <select class="form-select" aria-label="Default select example" placeholder="Node"
+                ng-model="balancerModel.node" required>
+                <option value="{{node.id}}" ng-repeat='node in nodes.rows track by node.id'>
+                  {{node.hostname}}</option>
+              </select>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" ng-click="createBalancer()">Submit</button>
+              <button type="reset" class="btn btn-secondary" ng-click="reset()">Reset</button>
+            </div>
+          </form><!-- End No Labels Form -->
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+          <h5 class="card-title">Create New Balancer</h5>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-xl-8">
+
+      <div class="card">
+        <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+          <ul class="nav nav-tabs nav-tabs-bordered">
+
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#networks">Networks</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#asns">ASN</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#hosts-tab">Hosts</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#incidents-tab">Incidents</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#rules-tab">Rules</button>
+            </li>
+          </ul>
+          <div class="tab-content pt-2">
+
+            <div class="tab-pane fade show active profile-overview" id="networks">
+              <div class="col-lg-12" ng-show="isAuth()">
+
+                <h5 class="card-title">Nameservers Nodes</h5>
+                <p>A virtual private network extends a private network across a public network and enables users to send
+                  and
+                  receive data across shared or public networks as if their computing devices were directly connected to
+                  the
+                  private network</p>
+
+                <!-- Table with stripped rows -->
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Range</th>
+                      <th scope="col">Created</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat='network in networks.rows track by network.id'>
+                      <th scope="row">{{$index}}</th>
+                      <td>{{network.name}}</td>
+                      <td>{{network.rangeHighIP}} - {{network.rangeLowIP}}</td>
+                      <td>
+                        <minutes-ago start-time="network.createdAt"></minutes-ago>
+                      </td>
+                      <td>
+                        <button class="bi bi-question-circle btn"
+                          ui-sref="adminBalancerCtrl({id:balancer.id})"></button>
+                        <button class="bi bi-question-circle btn" ui-sref="adminNodeCtrl({id:balancer.node})"></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- End Table with stripped rows -->
+
+
+              </div>
+
+            </div>
+
+            <div class="tab-pane fade show profile-overview" id="asns">
+              <div class="col-lg-12" ng-show="isAuth()">
+
+                <h5 class="card-title">Nameservers Nodes</h5>
+                <p>A virtual private network extends a private network across a public network and enables users to send
+                  and
+                  receive data across shared or public networks as if their computing devices were directly connected to
+                  the
+                  private network</p>
+
+                <!-- Table with stripped rows -->
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">ASN</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Created</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat='asn in asns.rows track by asn.id'>
+                      <th scope="row">{{$index}}</th>
+                      <td>AS{{asn.asn}}</td>
+                      <td>{{asn.name}}</td>
+                      <td>{{asn.description}}</td>
+                      <td>
+                        <minutes-ago start-time="asn.createdAt"></minutes-ago>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- End Table with stripped rows -->
+
+
+              </div>
+
+            </div>
+
+
+
+            <div class="tab-pane fade show profile-overview" id="hosts-tab">
+              <div class="col-lg-12" ng-show="isAuth()">
+
+                <h5 class="card-title">Nameservers Nodes</h5>
+                <p></p>
+
+                <!-- Table with stripped rows -->
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">IP</th>
+                      <th scope="col">Hostname</th>
+                      <th scope="col">Hits</th>
+                      <th scope="col">Created</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat='host in hosts.rows track by host.id'>
+                      <th scope="row">{{$index}}</th>
+                      <td>{{host.ip}}</td>
+                      <td>{{host.network.description}}</td>
+                      <td>{{host.score}}</td>
+                      <td>
+                        <minutes-ago start-time="host.createdAt"></minutes-ago>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- End Table with stripped rows -->
+
+
+              </div>
+
+            </div>
+            <div class="tab-pane fade show profile-overview" id="incidents-tab">
+              <div class="col-lg-12" ng-show="isAuth()">
+
+                <h5 class="card-title">incidents</h5>
+                <p></p>
+
+                <!-- Table with stripped rows -->
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">IP</th>
+                      <th scope="col">Source</th>
+                      <th scope="col">Hits</th>
+                      <th scope="col">Created</th>
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat='incident in incidents.rows track by incident.id'>
+                      <th scope="row">{{$index}}</th>
+                      <td>{{incident.host.ip}}</td>
+                      <td>{{incident.source}}</td>
+                      <td>{{incident.meta.vHost}}</td>
+                      <td>
+                        <minutes-ago start-time="incident.createdAt"></minutes-ago>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- End Table with stripped rows -->
+
+
+              </div>
+
+            </div>
+            <div class="tab-pane fade show profile-overview" id="rules-tab">
+              <div class="col-lg-12" ng-show="isAuth()">
+
+                <h5 class="card-title">incidents</h5>
+                <p></p>
+
+                <!-- Table with stripped rows -->
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">IP</th>
+                      <th scope="col">Source</th>
+                      <th scope="col">Hits</th>
+                      <th scope="col">Created</th>
+                    </tr>
+
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat='rule in rules.rows track by rule.id'>
+                      <th scope="row">{{$index}}</th>
+                      <td>{{rule.node.hostname}}</td>
+                      <td>{{rule.inInterface}}/{{rule.outInterface}}</td>
+                      <td>{{rule.chain}}</td>
+                      <td>{{rule.jump}}</td>
+                      <td>
+                        <minutes-ago start-time="rule.createdAt"></minutes-ago>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- End Table with stripped rows -->
+
+
+              </div>
+
+            </div>
+
+          </div><!-- End Bordered Tabs -->
+
+        </div><!-- End Bordered Tabs -->
+
+      </div>
+    </div>
+
+  </div>
+  </div>
+</section>

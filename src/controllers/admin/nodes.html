@@ -1,0 +1,181 @@
+<div class="pagetitle">
+  <h1>Nodes</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item">Admin</li>
+      <li class="breadcrumb-item active">Nodes</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+<section class="section profile">
+  <div class="row">
+    <div class="col-xl-4">
+
+      <div class="card">
+        <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+          <h5 class="card-title">Create New Space</h5>
+
+          <!-- No Labels Form -->
+          <form class="row g-3">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Name" aria-label="Name"
+                aria-describedby="basic-addon2" ng-model="spaceModel.name">
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Description" aria-label="Description"
+                aria-describedby="basic-addon2" ng-model="spaceModel.description">
+            </div>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Domain" aria-label="Domain"
+                aria-describedby="basic-addon2" ng-model="spaceModel.domain">
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" ng-click="createSpace()">Submit</button>
+              <button type="reset" class="btn btn-secondary" ng-click="reset()">Reset</button>
+            </div>
+          </form><!-- End No Labels Form -->
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-xl-8">
+
+      <div class="card">
+        <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+          <ul class="nav nav-tabs nav-tabs-bordered">
+
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview">Overview</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit">Edit</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#settings">Settings</button>
+            </li>
+          </ul>
+          <div class="tab-content pt-2">
+
+            <div class="tab-pane fade show active profile-overview" id="overview">
+              <div class="col-lg-12" ng-show="isAuth()">
+
+                <h5 class="card-title">System Nodes</h5>
+                <p>A virtual private network extends a private network across a public network and enables users to send
+                  and
+                  receive data across shared or public networks as if their computing devices were directly connected to
+                  the
+                  private network</p>
+
+                <!-- Table with stripped rows -->
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Arch</th>
+                      <th scope="col">Load</th>
+                      <th scope="col">Mem Used</th>
+                      <th scope="col">Online</th>
+                      <th scope="col">Updated</th>
+                      <th scope="col">Created</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat='node in nodes.rows track by node.id'>
+                      <th scope="row">{{$index}}</th>
+                      <td>{{node.hostname}}</td>
+                      <td>{{node.arch}}</td>
+                      <td>{{node.cpu.load1}}/{{node.cpu.load5}}/{{node.cpu.load15}}</td>
+                      <td>{{(node.memory.used/1024/1024).toFixed(2)}}MB</td>
+                      <td>{{node.online}}</td>
+                      <td>
+                        <minutes-ago start-time="node.updatedAt"></minutes-ago>
+                      </td>
+                      <td>
+                        <minutes-ago start-time="node.createdAt"></minutes-ago>
+                      </td>
+                      <td>
+                        <button class="bi bi-question-circle btn" ui-sref="adminNodeCtrl({id:node.id})"></button>
+                        <button class="bi bi-question-circle btn" ng-click="openNodeTerm(node)"></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- End Table with stripped rows -->
+
+
+              </div>
+
+            </div>
+
+            <div class=" tab-pane fade profile-edit pt-3" id="edit">
+
+                          <!-- Profile Edit Form -->
+                          <form>
+                            <div class="row mb-3">
+                              <label for="fullName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
+                              <div class="col-md-8 col-lg-9">
+                                <input name="fullName" type="text" class="form-control" id="fullName"
+                                  ng-model="profile.firstName">
+                              </div>
+                            </div>
+                            <div class="row mb-3">
+                              <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                              <div class="col-md-8 col-lg-9">
+                                <input name="fullName" type="text" class="form-control" id="fullName"
+                                  ng-model="profile.lastName">
+                              </div>
+                            </div>
+                            <div class="row mb-3">
+                              <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
+                              <div class="col-md-8 col-lg-9">
+                                <textarea name="about" class="form-control" id="about" style="height: 100px"
+                                  ng-model="profile.about"></textarea>
+                              </div>
+                            </div>
+                            <div class="text-center">
+                              <button type="submit" class="btn btn-primary" ng-click="updateProfile()">Save
+                                Changes</button>
+                            </div>
+                          </form><!-- End Profile Edit Form -->
+
+              </div>
+
+              <div class="tab-pane fade pt-3" id="settings">
+                <!-- Settings Form -->
+                <form>
+                  <div class="row mb-3">
+                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email
+                      Notifications</label>
+                    <div class="col-md-8 col-lg-9">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="changesMade" checked>
+                        <label class="form-check-label" for="changesMade">
+                          Changes made to your account
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                  </div>
+                </form><!-- End settings Form -->
+              </div>
+
+              <div class="tab-pane fade pt-3" id="change-password">
+
+
+              </div>
+
+            </div><!-- End Bordered Tabs -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+</section>

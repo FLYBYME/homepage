@@ -1,0 +1,515 @@
+<div class="pagetitle">
+    <h1>Node {{node.hostname}}</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item">Admin</li>
+            <li class="breadcrumb-item">Nodes</li>
+            <li class="breadcrumb-item active">{{node.hostname}}</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section profile">
+    <div class="row">
+        <div class="col-xl-4">
+
+            <div class="card">
+                <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+
+                    <img src="{{user.avatar}}" alt="Profile" class="rounded-circle">
+                    <h2>{{user.fullName}}</h2>
+                    <h3>{{profile.job}}</h3>
+                    <div class="social-links mt-2">
+                        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Hits <span>| This Week</span></h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>{{hitsTotal}}</h6>
+                            <span class="text-danger small pt-1 fw-bold">12%</span> <span
+                                class="text-muted small pt-2 ps-1">decrease</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Hits <span>| This Week</span></h5>
+                    <div class="d-flex align-items-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <div class="ps-3">
+                            <h6>{{hits}}</h6>
+                            <span class="text-danger small pt-1 fw-bold">12%</span> <span
+                                class="text-muted small pt-2 ps-1">decrease</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row col-xl-8">
+
+            <div class="card">
+                <div class="card-body pt-3">
+                    <!-- Bordered Tabs -->
+                    <ul class="nav nav-tabs nav-tabs-bordered">
+
+                        <li class="nav-item">
+                            <button class="nav-link active" data-bs-toggle="tab"
+                                data-bs-target="#profile-overview">Overview</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit">Edit Space</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#create-disk">Create
+                                Disk</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#create-mount">Create
+                                Mount</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content pt-2">
+
+                        <div class="tab-pane fade show active profile-overview" id="profile-overview">
+                            <h5 class="card-title">Space Details</h5>
+                            <div class="row">
+                                <div class="col-md-4 label ">ID</div>
+                                <div class="col-md-8">{{node.id}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 label ">Host Name</div>
+                                <div class="col-md-8">{{node.hostname}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 label ">Arch</div>
+                                <div class="col-md-8">{{node.arch}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 label ">Memory Used/Free/Total</div>
+                                <div class="col-md-8">
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar"
+                                            style="width: {{(100 * memory.buffers) / memory.memTotal}}%"
+                                            aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
+                                            {{(memory.buffers/1024).toFixed(2)}}MB</div>
+                                        <div class="progress-bar  bg-warning" role="progressbar"
+                                            style="width: {{(100 * memory.cached) / memory.memTotal}}%"
+                                            aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">
+                                            {{(memory.cached/1024).toFixed(2)}}MB</div>
+                                        <div class="progress-bar bg-success" role="progressbar"
+                                            style="width: {{(100 * memory.memAvailable) / memory.memTotal}}%"
+                                            aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+                                            {{(memory.memAvailable/1024).toFixed(2)}}MB</div>
+                                        <div class="progress-bar bg-danger" role="progressbar"
+                                            style="width: {{(100 * memory.memUsed) / memory.memTotal}}%"
+                                            aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+                                            {{(memory.memUsed/1024).toFixed(2)}}MB</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 label ">Load</div>
+                                <div class="col-md-8">{{node.cpu.load1}}/{{node.cpu.load5}}/{{node.cpu.load15}}</div>
+                            </div>
+
+
+                        </div>
+
+
+                        <div class=" tab-pane fade profile-edit pt-3" id="create-disk">
+                            <form>
+                                <div class="row mb-3">
+                                    <label for="Device" class="col-md-4 col-lg-3 col-form-label">Device</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="Device" type="text" placeholder="nvme0n1p2" class="form-control"
+                                            id="Device" ng-model="diskModel.device" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="path" class="col-md-4 col-lg-3 col-form-label">Path</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="/mnt/device"
+                                                aria-label="path" aria-describedby="basic-addon2"
+                                                ng-model="diskModel.path" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="size" class="col-md-4 col-lg-3 col-form-label">Size</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <div class="input-group mb-3">
+                                            <input type="number" class="form-control" placeholder="490122200"
+                                                aria-label="size" aria-describedby="basic-addon2"
+                                                ng-model="diskModel.size" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="Type" class="col-md-4 col-lg-3 col-form-label">Type</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <select class="form-select" aria-label="Default select example"
+                                            ng-model="diskModel.type" required>
+                                            <option value="nvme">NVME</option>
+                                            <option value="flash">FLASH</option>
+                                            <option value="ssd">SSD</option>
+                                            <option value="disk">Disk</option>
+                                            <option value="raid0">Raid0</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary" ng-disabled="diskModel.loading"
+                                        ng-click="createDisk()">Create New</button>
+                                </div>
+                            </form><!-- End Profile Edit Form -->
+                        </div>
+
+                        <div class=" tab-pane fade profile-edit pt-3" id="create-mount">
+                            <form>
+                                <div class="row mb-3">
+                                    <label for="Device" class="col-md-4 col-lg-3 col-form-label">Device ID</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="Device" type="text" placeholder="XZqv7MRk2yfvEdOvLOdL"
+                                            class="form-control" id="Device" ng-model="mountModel.device" required>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="path" class="col-md-4 col-lg-3 col-form-label">Mount Point</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="/mnt/device"
+                                                aria-label="path" aria-describedby="basic-addon2"
+                                                ng-model="mountModel.mountpoint" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="Type" class="col-md-4 col-lg-3 col-form-label">Type</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <select class="form-select" aria-label="Default select example"
+                                            ng-model="mountModel.type" required>
+                                            <option value="local">Local</option>
+                                            <option value="nfs">NFS</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary" ng-disabled="mountModel.loading"
+                                        ng-click="createMount()">Create New</button>
+                                </div>
+                            </form><!-- End Profile Edit Form -->
+                        </div>
+                        <div class=" tab-pane fade profile-edit pt-3" id="edit">
+
+                            <!-- Profile Edit Form -->
+                            <form>
+                                <div class="row mb-3">
+                                    <label for="Name" class="col-md-4 col-lg-3 col-form-label">Name</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="Name" type="text" class="form-control" id="Name"
+                                            ng-model="space.name">
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary" ng-click="updateSpace()">Save
+                                        Changes</button>
+                                </div>
+                            </form><!-- End Profile Edit Form -->
+
+                        </div>
+
+                        <div class="tab-pane fade pt-3" id="profile-settings">
+
+                            <!-- Settings Form -->
+                            <form>
+
+                                <div class="row mb-3">
+                                    <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email
+                                        Notifications</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="changesMade" checked>
+                                            <label class="form-check-label" for="changesMade">
+                                                Changes made to your account
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="newProducts" checked>
+                                            <label class="form-check-label" for="newProducts">
+                                                Information on new products and services
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="proOffers">
+                                            <label class="form-check-label" for="proOffers">
+                                                Marketing and promo offers
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="securityNotify" checked
+                                                disabled>
+                                            <label class="form-check-label" for="securityNotify">
+                                                Security alerts
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form><!-- End settings Form -->
+
+                        </div>
+
+                        <div class="tab-pane fade pt-3" id="profile-change-password">
+                            <!-- Change Password Form -->
+                            <form>
+
+                                <div class="row mb-3">
+                                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current
+                                        Password</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="password" type="password" class="form-control"
+                                            id="currentPassword">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New
+                                        Password</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="newpassword" type="password" class="form-control" id="newPassword">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New
+                                        Password</label>
+                                    <div class="col-md-8 col-lg-9">
+                                        <input name="renewpassword" type="password" class="form-control"
+                                            id="renewPassword">
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">Change Password</button>
+                                </div>
+                            </form><!-- End Change Password Form -->
+
+                        </div>
+
+                    </div><!-- End Bordered Tabs -->
+
+                </div>
+            </div>
+            <div class=" col-lg-6">
+                <div class="card card-body pt-3">
+
+
+                    <h5 class="card-title">Networks</h5>
+                    <p>A virtual private network extends a private network across a public network and
+                        enables users to send
+                        and
+                        receive data across shared or public networks as if their computing devices were
+                        directly connected to
+                        the
+                        private network</p>
+
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Device</th>
+                                <th scope="col">Family</th>
+                                <th scope="col"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat='network in networks.public track by network.id'>
+                                <th scope="row">{{$index}}</th>
+                                <td>{{network.address}}</td>
+                                <td>{{network.dev}}</td>
+                                <td>{{network.family}}</td>
+
+                                <td>
+                                    <button class="bi bi-question-circle btn"
+                                        ui-sref="websiteCtrl({space:space.id,id:website.id})"></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table datatable">
+                        <h5 class="table-title">Internal</h5>
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Device</th>
+                                <th scope="col">Family</th>
+                                <th scope="col"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat='network in networks.internal track by network.id'>
+                                <th scope="row">{{$index}}</th>
+                                <td>{{network.address}}</td>
+                                <td>{{network.dev}}</td>
+                                <td>{{network.family}}</td>
+
+                                <td>
+                                    <button class="bi bi-question-circle btn"
+                                        ui-sref="websiteCtrl({space:space.id,id:website.id})"></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table datatable">
+                        <h5 class="table-title">Tunnel</h5>
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Device</th>
+                                <th scope="col">Family</th>
+                                <th scope="col"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat='network in networks.tunnel track by network.id'>
+                                <th scope="row">{{$index}}</th>
+                                <td>{{network.address}}</td>
+                                <td>{{network.dev}}</td>
+                                <td>{{network.family}}</td>
+
+                                <td>
+                                    <button class="bi bi-question-circle btn"
+                                        ui-sref="websiteCtrl({space:space.id,id:website.id})"></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table datatable">
+                        <h5 class="table-title">Docker</h5>
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Device</th>
+                                <th scope="col">Family</th>
+                                <th scope="col"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat='network in networks.docker track by network.id'>
+                                <th scope="row">{{$index}}</th>
+                                <td>{{network.address}}</td>
+                                <td>{{network.dev}}</td>
+                                <td>{{network.family}}</td>
+
+                                <td>
+                                    <button class="bi bi-question-circle btn"
+                                        ui-sref="websiteCtrl({space:space.id,id:website.id})"></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- End Table with stripped rows -->
+
+
+                </div>
+            </div>
+            <div class=" col-lg-6">
+                <div class="card card-body pt-3">
+
+
+                    <h5 class="card-title">Storage</h5>
+                    <p>A virtual private network extends a private network across a public network and
+                        enables users to send</p>
+
+                    <h4 class="card-title">Disks</h4>
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Path</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Device</th>
+                                <th scope="col">Size</th>
+                                <th scope="col"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat='disk in disks.rows track by disk.id'>
+                                <th scope="row">{{$index}}</th>
+                                <td>{{disk.path}}</td>
+                                <td>{{disk.type}}</td>
+                                <td>{{disk.device}}</td>
+                                <td>
+                                    <bytes-to-size bytes="disk.size*1024"></bytes-to-size>
+                                </td>
+                                <td>
+                                    <button class="bi bi-question-circle btn"
+                                        ui-sref="websiteCtrl({space:space.id,id:website.id})"></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <h4 class="card-title">Mounts</h4>
+                    <!-- Table with stripped rows -->
+                    <table class="table datatable">
+                        <h5 class="table-title">Public</h5>
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Path</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Device</th>
+                                <th scope="col"> </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat='mount in mounts.rows track by mount.id'>
+                                <th scope="row">{{$index}}</th>
+                                <td>{{mount.mountpoint}}</td>
+                                <td>{{mount.type}}</td>
+                                <td>{{mount.device}}</td>
+                                <td>
+                                    <button class="bi bi-question-circle btn"
+                                        ng-click="removeMount(mount)"></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
