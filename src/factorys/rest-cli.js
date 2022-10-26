@@ -6,7 +6,7 @@ const controller = 'RestCli';
 class RestCliFactory extends EventEmitter {
     constructor($http, ActionFactory) {
         super();
-        this.url = 'http://10.73.50.2:4000/api';
+        this.url = 'https://api.one-host.ca/api';
         this.$http = $http;
 
         this.token = localStorage.getItem('token')
