@@ -40,6 +40,9 @@ import './controllers/pricing/pricing';
 import './controllers/emails/emails';
 
 
+import './controllers/namespaces/namespaces';
+
+
 import './controllers/spaces/spaces';
 import './controllers/spaces/space';
 import './controllers/spaces/website';

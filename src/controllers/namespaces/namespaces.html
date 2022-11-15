@@ -1,0 +1,181 @@
+<div class="pagetitle">
+  <h1>{{title}}</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item">Pages</li>
+      <li class="breadcrumb-item active">{{title}}</li>
+    </ol>
+  </nav>
+</div>
+<section class="section" ng-show="isAuth()">
+  <div class="row">
+    <div class="col-xl-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Create Name Space</h5>
+          <form class="row g-3">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Name" aria-label="Name"
+                aria-describedby="basic-addon2" id="name" ng-model="model.name">
+            </div>
+            <div class="input-group mb-3">
+              <select class="form-select" aria-label="resourcequotas" ng-model="model.resourcequota">
+                <option ng-repeat="resourcequota in resourcequotas.rows track by resourcequota.id"
+                  value="{{resourcequota.id}}">{{resourcequota.name}}
+                  CPU:L{{resourcequota.limits.cpu}}:R{{resourcequota.limits.cpu}}
+                  Memeory:L{{resourcequota.limits.memory}}:R{{resourcequota.limits.memory}}</option>
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <textarea class="form-control" ng-model="model.description" placeholder="Description"></textarea>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" ng-click="submitNewNamespace()">Submit</button>
+              <button type="reset" class="btn btn-secondary" ng-click="resetNewNamespace()">Reset</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xl-8">
+
+      <div class="card">
+        <div class="card-body pt-3">
+          <!-- Bordered Tabs -->
+          <ul class="nav nav-tabs nav-tabs-bordered">
+
+            <li class="nav-item">
+              <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#overview">Overview</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#edit">Edit</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#settings">Settings</button>
+            </li>
+          </ul>
+          <div class="tab-content pt-2">
+
+            <div class="tab-pane fade show active overview" id="overview">
+              <div class="col-lg-12">
+
+                <h5 class="card-title">Name Spaces</h5>
+                <p>Innovative technology for fast, easy domain name system management. DNSimple focuses on DNS
+                  management, and we offer a lot of tools most registrars don't have.</p>
+
+                <!-- Table with stripped rows -->
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">CPU</th>
+                      <th scope="col">Memeory</th>
+                      <th scope="col">Pods</th>
+                      <th scope="col">Created</th>
+                      <th scope="col"> </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat='namespace in namespaces.rows track by namespace.id'>
+
+                      <th scope="row">{{$index}}</th>
+                      <td>{{namespace.name}}</td>
+                      <td>{{namespace.status}}</td>
+                      <td>{{namespace.quota.used['requests.cpu']}}</td>
+                      <td>{{namespace.quota.used['requests.memory']}}</td>
+                      <td>{{namespace.quota.used['pods']}}</td>
+                      <td>
+                        <minutes-ago start-time="namespace.createdAt"></minutes-ago>
+                      </td>
+                      <td>
+                        <div class="btn-group" role="group">
+                          <button id="btnGroupDrop1" type="button" class="btn-primary dropdown-toggle"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            
+                          </button>
+                          <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                            <li><a class="dropdown-item" ui-sref="websiteCtrl({space:space.id,id:website.id})">View</a>
+                            </li>
+                            <li><a class="dropdown-item btn-danger" ng-click="removeRecord(record)">Remove</a></li>
+                          </ul>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- End Table with stripped rows -->
+
+
+              </div>
+
+            </div>
+
+            <div class=" tab-pane fade profile-edit pt-3" id="edit">
+
+              <!-- Profile Edit Form -->
+              <form>
+                <div class="row mb-3">
+                  <label for="fullName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="fullName" type="text" class="form-control" id="fullName" ng-model="profile.firstName">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="fullName" type="text" class="form-control" id="fullName" ng-model="profile.lastName">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
+                  <div class="col-md-8 col-lg-9">
+                    <textarea name="about" class="form-control" id="about" style="height: 100px"
+                      ng-model="profile.about"></textarea>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary" ng-click="updateProfile()">Save
+                    Changes</button>
+                </div>
+              </form><!-- End Profile Edit Form -->
+
+            </div>
+
+            <div class="tab-pane fade pt-3" id="settings">
+              <!-- Settings Form -->
+              <form>
+                <div class="row mb-3">
+                  <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email
+                    Notifications</label>
+                  <div class="col-md-8 col-lg-9">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="changesMade" checked>
+                      <label class="form-check-label" for="changesMade">
+                        Changes made to your account
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+              </form><!-- End settings Form -->
+            </div>
+
+            <div class="tab-pane fade pt-3" id="change-password">
+
+
+            </div>
+
+          </div><!-- End Bordered Tabs -->
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

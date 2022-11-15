@@ -33,18 +33,25 @@ class IndexCtrl {
 
         this.interval = $interval(() => {
             this.updateStats($scope, RestCli)
-        }, 5 * 1000);
+        }, 10 * 1000);
         $scope.$on('$destroy', () => {
             $interval.cancel(this.interval);
         });
     }
 
     async updateStats($scope, RestCli) {
-        RestCli.get(`v1/stats/stats`).then((res) => {
-            $scope.stats.querysTotal = res.dns_querys_total
-            $scope.stats.querys = res.dns_querys
-            console.log(res)
-
+        RestCli.get(`v1/domains/stats`).then((res) => {
+            let querysTotal = 0;
+            let querys = 0;
+            for (let index = 0; index < res.length; index++) {
+                const element = res[index];
+                if (element.status == 'fulfilled') {
+                    querys += element.info.querys;
+                    querysTotal += element.info.querysTotal;
+                }
+            }
+            $scope.stats.querysTotal = querysTotal;
+            $scope.stats.querys = querys;
         })
     }
 

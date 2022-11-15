@@ -24,6 +24,21 @@ class RestCliFactory extends EventEmitter {
         this.user()
         this.createStats()
     }
+
+    options(options) {
+        return Object.keys(options).map((key) => {
+
+            if (Array.isArray(options[key])) {
+                const str = [];
+                for (let index = 0; index < options[key].length; index++) {
+                    str.push(`${encodeURIComponent(key)}=${encodeURIComponent(options[key][index])}`)
+                }
+                return str.join('&')
+            }
+
+            return `${encodeURIComponent(key)}=${encodeURIComponent(options[key])}`
+        }).join('&')
+    }
     watch(key) {
         const string = JSON.stringify({
             add: [{
@@ -83,8 +98,8 @@ class RestCliFactory extends EventEmitter {
             .then((responce) => responce.data)
             .catch((responce) => Promise.reject(responce.data))
     }
-    get(path) {
-        return this.$http.get(`${this.url}/${path}`)
+    get(path, options = {}) {
+        return this.$http.get(`${this.url}/${path}?${this.options(options)}`)
             .then((responce) => responce.data)
             .catch((responce) => Promise.reject(responce.data))
     }
